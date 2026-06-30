@@ -25,9 +25,9 @@ const getProduct = (req,res) =>{
       })
     }
     if(results.length===0) {
-      return res.status(500).json({
+      return res.status(404).json({
         success : false,
-        message:"Product with id = {id}",
+        message:`Product with id = ${id}`
       })
     }
 
@@ -39,7 +39,7 @@ const getProduct = (req,res) =>{
 };
 
 const addProduct =(req,res)=>{
-  const {name,price,description,image}=req.params;
+  const {name,price,description,image}=req.body;
   Product.addProduct(name,price,description,image,(err,results)=>{
     if(err){
       return res.status(500).json({
@@ -56,7 +56,8 @@ const addProduct =(req,res)=>{
 };
 
 const editProduct =(req,res)=>{
-  const {id,name,price,description,image}=req.params;
+  const {id} = req.params;
+  const {name,price,description,image}=req.body;
   Product.editProduct(id,name,price,description,image,(err,results)=>{
     if(err){
       return res.status(500).json({
@@ -87,4 +88,13 @@ const removeProduct =(req,res)=>{
     });
 
   });
+};
+
+
+module.exports={
+  getAllProducts,
+  getProduct,
+  addProduct,
+  editProduct,
+  removeProduct,
 };
